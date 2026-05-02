@@ -56,52 +56,13 @@ const Navbar = () => {
 
       <div className="navbar-end gap-1 sm:gap-2">
 
-        {/* User Dropdown */}
-        <div className="dropdown dropdown-end">
-          <div
-            tabIndex={0}
-            role="button"
-            className="flex items-center gap-1.5 sm:gap-2 px-2 py-1 rounded-full border border-white/10 hover:bg-white/5 cursor-pointer transition"
-          >
-            <div className="avatar placeholder">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-[#c8a03a] to-[#8fbc9a] flex items-center justify-center">
-                <span className="text-[#1a3c2e] font-semibold text-xs sm:text-sm">AH</span>
-              </div>
-            </div>
-            <span className="text-[#e2edd5] text-sm font-medium hidden sm:inline max-w-[80px] md:max-w-[90px] truncate">
-              Abdullah
-            </span>
-            <FaChevronDown className="text-[#8fbc9a] text-xs" />
-          </div>
-
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu bg-[#1e4534] border border-[#2d5c43] rounded-xl shadow-xl z-50 mt-2 w-48 sm:w-52 p-1 text-sm"
-          >
-            <li className="px-3 py-2 border-b border-white/5 mb-1">
-              <p className="font-semibold text-[#f5e6c0] text-sm">Abdullah Hassan</p>
-              <p className="text-[#8fbc9a] text-xs">abdullah@email.com</p>
-            </li>
-            <li>
-              <Link href="/bookings" className="text-[#c5d9c8] hover:text-[#f5e6c0] hover:bg-white/5 flex items-center gap-2">
-                <FaClipboardList /> My Bookings
-              </Link>
-            </li>
-            <li>
-              <Link href="/profile" className="text-[#c5d9c8] hover:text-[#f5e6c0] hover:bg-white/5 flex items-center gap-2">
-                <FaUser /> Profile
-              </Link>
-            </li>
-            <div className="divider my-0.5 opacity-20" />
-            <li>
-              <a href="/logout" className="text-red-400 hover:text-red-300 hover:bg-red-500/10 flex items-center gap-2">
-                <FaDoorOpen /> Logout
-              </a>
-            </li>
-          </ul>
+        <div className='space-x-6'>
+          <Link className='btn btn-warning text-black sm:w-20 md:w-30 lg:w-30' href="/login">
+          Login</Link>
+          <Link className='btn btn-base text-black sm:w-20 md:w-30 lg:w-30' href="/register">
+          Register</Link>
         </div>
-
-        {/* Mobile Hamburger Dropdown */}
+        
         <div className="dropdown dropdown-end lg:hidden ml-0.5 sm:ml-1">
           <label tabIndex={0} className="btn btn-ghost btn-sm text-[#c5d9c8]">
             <FaBars className="text-base" />
