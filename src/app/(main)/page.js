@@ -6,7 +6,7 @@ import Header from '@/components/shared/Hero';
 import Animalcards from '@/components/shared/Feturecards';
 export default function Home() {
   return (
-  <div>main page
+  <div>
     <Header/>
              <Animalcards/>
              <TopBreeds/>

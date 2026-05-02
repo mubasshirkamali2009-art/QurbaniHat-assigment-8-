@@ -122,7 +122,7 @@ const Animalcards = () => {
         >
           {featured.map((animal) => (
             <Link
-              key={animal}
+              key={animal.id}
                href="/animals"
               className="fa-card"
             >

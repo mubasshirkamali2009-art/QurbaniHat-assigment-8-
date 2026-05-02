@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
+
 import {
   GiKnifeFork,
   GiBatteredAxe,
@@ -245,11 +245,11 @@ const QurbaniTools = () => {
           }}
         >
           {toolsData.map((tool) => (
-            <Link
+           <div
               key={tool.id}
-              href={`/tools/${tool.id}`}
-              className="tool-card"
-            >
+                  className="tool-card"
+              >
+            
               <div
                 style={{
                   width: "100%",
@@ -308,7 +308,7 @@ const QurbaniTools = () => {
                   </span>
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </section>
