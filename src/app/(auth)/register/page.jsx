@@ -10,7 +10,7 @@ const {register,
 const handleRegisterfucn= (data) => {
 console.log(data,'data');
 const {email, name , photo , password}=data;
-console.log(password)
+
 }
 
 

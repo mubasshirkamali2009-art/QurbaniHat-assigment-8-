@@ -5,7 +5,7 @@ const db = client.db();
 
 
 
-const client = new MongoClient("mongodb://localhost:27017/database");
+const client = new MongoClient("process.env.MONGO_URI");
 
 export const auth = betterAuth({
   database: mongodbAdapter(db, {
