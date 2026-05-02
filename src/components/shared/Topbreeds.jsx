@@ -137,7 +137,7 @@ const TopBreeds = () => {
           }}
         >
           {breeds.map((breed) => (
-            <Link key={breed.id} href={breed.href} className="breed-item">
+            <Link key={breed.id} href="/animals"className="breed-item">
               {breed.icon}
               <div>
                 <p

@@ -122,8 +122,8 @@ const Animalcards = () => {
         >
           {featured.map((animal) => (
             <Link
-              key={animal.id}
-              href={`/animals/${animal.id}`}
+              key={animal}
+               href="/animals"
               className="fa-card"
             >
               <div

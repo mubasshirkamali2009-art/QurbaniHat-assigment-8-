@@ -573,8 +573,7 @@ const AnimalsPage = () => {
                         {formatPrice(animal.price)}
                       </span>
                       <Link
-                        href={`/animals/${animal.id}`}
-                        className="ap-details-btn"
+                         key={animal.id} href={`/animal-detail/${animal.id}`} className="ap-card"
                       >
                         Details
                       </Link>
