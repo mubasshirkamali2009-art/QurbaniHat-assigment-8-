@@ -1,7 +1,7 @@
 
 
 "use client";
- 
+ import 'animate.css';
 import React from "react";
 import { FaMoon, FaStar } from "react-icons/fa";
 import { GiGoat, GiCamel, GiCow } from "react-icons/gi";
@@ -119,7 +119,7 @@ const HeroSection = () => {
             Eid Al-Adha · Qurbani Season 2025
           </p>
  
-          <h1
+          <h1 className="animate__animated animate__bounce"
             style={{
               fontFamily: "'Georgia', serif",
               fontSize: "clamp(36px, 7vw, 64px)",
@@ -148,7 +148,7 @@ const HeroSection = () => {
             <div style={{ width: 60, height: 1, background: "#2d5c43" }} />
           </div>
  
-          <p
+          <p className='animate__animated animate__bounce'
             style={{
               fontSize: 15,
               color: "#8fbc9a",

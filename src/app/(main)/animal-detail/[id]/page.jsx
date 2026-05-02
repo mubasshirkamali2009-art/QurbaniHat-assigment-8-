@@ -4,6 +4,7 @@ import { LuWeight, LuCalendarDays } from "react-icons/lu";
 import { PiPawPrintFill } from "react-icons/pi";
 import Link from "next/link";
 import animaljson from "./../../../../animal.json";
+import BookingForm from "@/components/shared/BookingForm";
 
 const formatPrice = (p) => "৳" + Number(p).toLocaleString("en-IN");
 
@@ -44,39 +45,7 @@ const StatCard = ({ icon: Icon, label, value }) => (
   </div>
 );
 
-const BookingForm = () => (
-  <div className="bg-gradient-to-br from-[#0a1f10] to-[#061409] border border-emerald-900/60 rounded-2xl p-6">
-    <p className="text-[10px] tracking-[3px] uppercase text-amber-500/70 font-semibold mb-5">
-      Booking Details
-    </p>
-    <div className="space-y-4">
-      {[
-        { icon: FiUser,   label: "Full Name",        name: "name",    type: "text",  placeholder: "e.g. Abdullah Al Mamun" },
-        { icon: FiMail,   label: "Email Address",    name: "email",   type: "email", placeholder: "you@example.com" },
-        { icon: FiPhone,  label: "Phone Number",     name: "phone",   type: "tel",   placeholder: "+880 1XXX-XXXXXX" },
-        { icon: FiMapPin, label: "Delivery Address", name: "address", type: "text",  placeholder: "House, Road, Area, City" },
-      ].map(({ icon: Icon, label, name, type, placeholder }) => (
-        <div key={name}>
-          <label className="block text-[10px] tracking-[2px] uppercase text-emerald-600 mb-1.5 font-semibold">
-            {label}
-          </label>
-          <div className="relative">
-            <Icon className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm pointer-events-none text-emerald-700" />
-            <input
-              type={type}
-              name={name}
-              placeholder={placeholder}
-              className="w-full pl-10 pr-4 py-3 bg-[#040e07] rounded-xl text-sm text-amber-50 outline-none border border-emerald-900/70 focus:border-amber-500/60 focus:ring-2 focus:ring-amber-900/30 transition-all duration-200 placeholder:text-emerald-900"
-            />
-          </div>
-        </div>
-      ))}
-    </div>
-    <button className="w-full mt-5 py-3.5 rounded-xl text-sm font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-[#061409] hover:shadow-[0_8px_30px_rgba(200,160,58,0.35)] hover:-translate-y-0.5 active:scale-95">
-      Confirm Booking
-    </button>
-  </div>
-);
+<BookingForm/>
 
 export default async function AnimalDetailsPage({ params }) {
   const { id } = await params;
