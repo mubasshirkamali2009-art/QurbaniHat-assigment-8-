@@ -1,4 +1,5 @@
 "use client"
+import { authClient } from '@/lib/auth-client';
 import Link from 'next/link';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -7,14 +8,25 @@ const RegisterPage = () => {
 const {register,
     handleSubmit , formState: {errors} } =useForm()
 
-const handleRegisterfucn= (data) => {
+const handleRegisterfucn=  async(data) => {
 console.log(data,'data');
 const {email, name , photo , password}=data;
+
+
+
+const {data:res ,error} =await authClient.signUp.email({
+    name: name, // required
+    email: email, // required
+    password: password, // required
+    image: photo,
+    callbackURL: "/",
+});
+console.log(res,error)
 
 }
 
 
-console.log(errors)
+
 
 
     return (
