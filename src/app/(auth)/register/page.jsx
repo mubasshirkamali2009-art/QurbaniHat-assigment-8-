@@ -3,7 +3,8 @@ import { authClient } from '@/lib/auth-client';
 import Link from 'next/link';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-
+import { FaGooglePlus } from "react-icons/fa6";
+import { ToastContainer, toast } from 'react-toastify';
 const RegisterPage = () => {
 const {register,
     handleSubmit , formState: {errors} } =useForm()
@@ -22,6 +23,14 @@ const {data:res ,error} =await authClient.signUp.email({
     callbackURL: "/",
 });
 console.log(res,error)
+if(error){
+ toast.error(error.message)
+}
+if(res){
+  toast.success('Registation Successfull')
+}
+
+
 
 }
 
@@ -30,7 +39,7 @@ console.log(res,error)
 
 
     return (
-        <div className='container mx-auto min-h[80vh] flex justify-center items-center'>
+        <div className='container mx-auto min-h[80vh] flex justify-center items-center flex-col'>
             <div className='py-20 px-10 rounded-xl bg-green-800 my-50'>
  <h2 className='text-3xl font-bold mb-6 text-white'>Register your account</h2>
  <form action="" onSubmit={handleSubmit(handleRegisterfucn)} className='space-y-5'>
@@ -63,7 +72,17 @@ console.log(res,error)
 
  <p className='text-white  p-5'>already have an account   <Link href="/login" className='text-red-500 text-2xl ' > Login</Link> </p>
 
-            </div>
+            </div> 
+           <div className='bg-base-300 px-6 sm:px-10 md:px-16 lg:px-30 space-y-6 py-10 items-center rounded-2xl mb-50 w-full sm:w-auto'>
+  <h1 className='text-black mx-auto text-center text-2xl sm:text-3xl md:text-4xl'>Register with</h1>
+  <div className='flex justify-center'>
+    <button className='flex justify-center items-center gap-3 sm:gap-5 text-lg sm:text-xl md:text-2xl bg-blue-300 px-4 sm:px-5 py-2 sm:py-3 rounded-2xl w-full sm:w-auto'>
+      <FaGooglePlus /> Continue with Google
+    </button>
+  </div>
+</div>
+<ToastContainer />
+           
         </div>
     );
 };

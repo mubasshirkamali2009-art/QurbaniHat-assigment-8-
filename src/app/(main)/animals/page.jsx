@@ -568,16 +568,16 @@ const AnimalsPage = () => {
 
                     <p className="ap-card-desc">{animal.description}</p>
 
-                    <div className="ap-card-footer">
-                      <span className="ap-card-price">
-                        {formatPrice(animal.price)}
-                      </span>
-                      <Link
-                         key={animal.id} href={`/animal-detail/${animal.id}`} className="ap-card"
-                      >
-                        Details
-                      </Link>
-                    </div>
+                  <div className="ap-card-footer flex flex-col sm:flex-col md:flex-row lg:flex-row">
+  <span className="ap-card-price">
+    {formatPrice(animal.price)}
+  </span>
+  <Link
+    key={animal.id} href={`/animal-detail/${animal.id}`} className="ap-card"
+  >
+    Details
+  </Link>
+</div>
                   </div>
                 </div>
               ))}

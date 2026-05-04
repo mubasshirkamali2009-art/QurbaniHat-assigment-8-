@@ -4,7 +4,9 @@ import Link from 'next/link';
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import { FaHome, FaPaw, FaClipboardList, FaUser, FaDoorOpen, FaChevronDown, FaBars } from "react-icons/fa";
+import { GiArchiveRegister } from "react-icons/gi";
 
+import { LuLogIn } from "react-icons/lu";
 const Navbar = () => {
   const pathname = usePathname();
 
@@ -56,12 +58,14 @@ const Navbar = () => {
 
       <div className="navbar-end gap-1 sm:gap-2">
 
-        <div className='space-x-6'>
-          <Link className='btn btn-warning text-black sm:w-20 md:w-30 lg:w-30' href="/login">
-          Login</Link>
-          <Link className='btn btn-base text-black sm:w-20 md:w-30 lg:w-30' href="/register">
-          Register</Link>
-        </div>
+        <div className='hidden md:flex lg:flex space-x-6'>
+  <Link className='btn btn-warning text-black md:w-30 lg:w-30' href="/login">
+   <LuLogIn /> Login
+  </Link>
+  <Link className='btn btn-base text-black md:w-30 lg:w-30' href="/register">
+  <GiArchiveRegister />  Register
+  </Link>
+</div>
         
         <div className="dropdown dropdown-end lg:hidden ml-0.5 sm:ml-1">
           <label tabIndex={0} className="btn btn-ghost btn-sm text-[#c5d9c8]">
@@ -76,6 +80,16 @@ const Navbar = () => {
                 <FaHome /> Home
               </Link>
             </li>
+             
+        <li>
+            <Link className=' text-green-500 sm:w-20 md:w-30 lg:w-30' href="/login">
+         <LuLogIn /> Login</Link>
+        </li>
+          <li>
+            <Link className=' text-white sm:w-20 md:w-30 lg:w-30' href="/register">
+       <GiArchiveRegister />   Register</Link>
+          </li>
+        
             <li>
               <Link href="/animals" className={mobileNavLinkClass("/animals")}>
                 <FaPaw /> All Animals
