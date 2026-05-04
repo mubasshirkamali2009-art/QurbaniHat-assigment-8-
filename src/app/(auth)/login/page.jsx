@@ -1,14 +1,31 @@
 "use client"
+import { authClient } from '@/lib/auth-client';
 import Link from 'next/link';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FaGooglePlus } from "react-icons/fa6";
+
+import { ToastContainer, toast } from 'react-toastify';
 const LoginPage = () => {
 const {register,
     handleSubmit , formState: {errors} } =useForm()
 
-const handleLoginfucn= (data) => {
+const handleLoginfucn= async (data) => {
 console.log(data,'data');
+
+const { data:res , error } = await authClient.signIn.email({
+    email: data.email, // required
+    password: data.password , // required
+    rememberMe: true,
+    callbackURL: "/",
+});
+console.log(res , error);
+if(error){
+ toast.error(error.message)
+}
+if(res){
+  toast.success('Login Successfull')}
+
 }
 
 
@@ -46,7 +63,7 @@ console.log(errors,"errors")
     </button>
   </div>
 </div>
-
+<ToastContainer />
         </div>
     );
 };

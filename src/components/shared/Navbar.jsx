@@ -5,11 +5,21 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import { FaHome, FaPaw, FaClipboardList, FaUser, FaDoorOpen, FaChevronDown, FaBars } from "react-icons/fa";
 import { GiArchiveRegister } from "react-icons/gi";
-
+import { authClient } from "@/lib/auth-client"
 import { LuLogIn } from "react-icons/lu";
-const Navbar = () => {
-  const pathname = usePathname();
+import {Avatar, Button} from "@heroui/react";
+import { MdLogout } from "react-icons/md";
 
+
+
+const Navbar = () => {
+  
+const userData = authClient.useSession();
+const user = userData.data?.user;
+  console.log(user ,"user")
+ const handleSingOut =async() =>await authClient.signOut()
+
+ const pathname = usePathname();
   const navLinkClass = (href) => {
     const isActive = pathname === href;
     return `btn btn-ghost btn-sm font-medium gap-2 transition-colors
@@ -58,14 +68,30 @@ const Navbar = () => {
 
       <div className="navbar-end gap-1 sm:gap-2">
 
-        <div className='hidden md:flex lg:flex space-x-6'>
+       { !user && <div className='hidden md:flex lg:flex space-x-6 '>
   <Link className='btn btn-warning text-black md:w-30 lg:w-30' href="/login">
    <LuLogIn /> Login
   </Link>
   <Link className='btn btn-base text-black md:w-30 lg:w-30' href="/register">
   <GiArchiveRegister />  Register
   </Link>
-</div>
+</div>}
+
+{
+  user && ( 
+   <> <Link href="/my-profile">
+  <div className='flex items-center gap-5 bg-white/5 rounded-2xl px-3 py-1 backdrop-blur-lg border border-white/20'>
+    <h1 className='text-warning text-xl hidden sm:hidden md:block'>My Profile</h1>
+    <Avatar>
+      <Avatar.Image alt="user img" src={user?.image} referrerPolicy='no-referrer' />
+      <Avatar.Fallback>{user?.name?.slice(0, 2).toUpperCase()}</Avatar.Fallback>
+    </Avatar>
+  </div>
+</Link>
+
+<Button onClick={handleSingOut } className='hidden md:flex' variant='danger'><MdLogout /> Sign Out</Button>
+ </> )
+}
         
         <div className="dropdown dropdown-end lg:hidden ml-0.5 sm:ml-1">
           <label tabIndex={0} className="btn btn-ghost btn-sm text-[#c5d9c8]">
@@ -75,20 +101,27 @@ const Navbar = () => {
             tabIndex={0}
             className="dropdown-content menu bg-[#1e4534] border border-[#2d5c43] rounded-xl shadow-xl z-50 mt-2 w-44 p-1 text-sm"
           >
-            <li>
+            <li >
               <Link href="/" className={mobileNavLinkClass("/")}>
                 <FaHome /> Home
               </Link>
             </li>
              
-        <li>
+     { !user && ( <> <li>
             <Link className=' text-green-500 sm:w-20 md:w-30 lg:w-30' href="/login">
          <LuLogIn /> Login</Link>
-        </li>
+        </li> 
           <li>
             <Link className=' text-white sm:w-20 md:w-30 lg:w-30' href="/register">
        <GiArchiveRegister />   Register</Link>
-          </li>
+          </li> </> )}
+
+     { user && ( <li className='md:hidden'>
+  <button onClick={handleSingOut } className='text-red-500' href="/login">
+    <MdLogout /> Sign Out
+  </button>
+</li>
+           ) }
         
             <li>
               <Link href="/animals" className={mobileNavLinkClass("/animals")}>

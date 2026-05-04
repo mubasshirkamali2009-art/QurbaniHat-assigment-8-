@@ -20,7 +20,7 @@ const {data:res ,error} =await authClient.signUp.email({
     email: email, // required
     password: password, // required
     image: photo,
-    callbackURL: "/",
+    callbackURL: "/login",
 });
 console.log(res,error)
 if(error){
