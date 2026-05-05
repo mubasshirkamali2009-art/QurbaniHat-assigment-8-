@@ -22,4 +22,4 @@ responnsive and full backend safety by monodb database
 
    freameworks
    tailwind css
-    ok thats it  
+    ok thats it 
