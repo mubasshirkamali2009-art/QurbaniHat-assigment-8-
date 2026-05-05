@@ -1,10 +1,15 @@
+"use client"
 import { GiCow, GiGoat, GiSheep, GiCamel, GiBuffaloHead } from "react-icons/gi";
-import { FiArrowLeft, FiShield, FiPackage, FiCheckCircle, FiMapPin, FiUser, FiMail, FiPhone } from "react-icons/fi";
+import { FiArrowLeft, FiShield, FiPackage, FiCheckCircle, FiMapPin } from "react-icons/fi";
 import { LuWeight, LuCalendarDays } from "react-icons/lu";
 import { PiPawPrintFill } from "react-icons/pi";
 import Link from "next/link";
 import animaljson from "./../../../../animal.json";
 import BookingForm from "@/components/shared/BookingForm";
+import { useEffect , use } from "react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import { Spinner } from "@heroui/react";
 
 const formatPrice = (p) => "৳" + Number(p).toLocaleString("en-IN");
 
@@ -45,39 +50,41 @@ const StatCard = ({ icon: Icon, label, value }) => (
   </div>
 );
 
-<BookingForm/>
-
-export default async function AnimalDetailsPage({ params }) {
-  const { id } = await params;
+export default function AnimalDetailsPage({ params }) {
+  const router = useRouter();
+  const userData = authClient.useSession();
+  const user = userData.data?.user;
+  const loading = userData.isPending;
+const { id } = use(params);
   const animal   = animaljson.find((a) => a.id === Number(id)) ?? animaljson[0];
   const features = featuresMap[animal.type] ?? featuresMap.Cow;
   const seller   = sellerMap[animal.type]   ?? "Haji Farms Ltd.";
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/login");
+    }
+  }, [user, loading]);
+
+
+
+  if (loading) return (
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#040e07' }}>
+      <Spinner size="lg" color="warning" />
+    </div>
+  );
+
+  if (!user) return null;
 
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap');
         .font-serif-custom { font-family: 'Playfair Display', Georgia, serif !important; }
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(22px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50%       { transform: translateY(-12px); }
-        }
-        @keyframes shimmer {
-          0%   { background-position: -200% center; }
-          100% { background-position:  200% center; }
-        }
-        @keyframes orbA {
-          0%, 100% { transform: translate(0,0) scale(1); }
-          50%       { transform: translate(20px,-15px) scale(1.08); }
-        }
-        @keyframes orbB {
-          0%, 100% { transform: translate(0,0) scale(1); }
-          50%       { transform: translate(-15px,20px) scale(0.94); }
-        }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+        @keyframes orbA { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(20px,-15px) scale(1.08); } }
+        @keyframes orbB { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-15px,20px) scale(0.94); } }
         .anim-fu-1 { animation: fadeUp .55s .05s ease both; }
         .anim-fu-2 { animation: fadeUp .55s .12s ease both; }
         .anim-fu-3 { animation: fadeUp .55s .20s ease both; }
@@ -99,10 +106,7 @@ export default async function AnimalDetailsPage({ params }) {
       <div className="min-h-screen bg-[#040e07]">
         <div className="sticky top-0 z-40 bg-[#040e07]/80 backdrop-blur-xl border-b border-emerald-900/40">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-3 flex-wrap">
-            <Link
-              href="/animals"
-              className="flex items-center gap-2 text-xs text-emerald-600 hover:text-amber-400 border border-emerald-900/60 hover:border-amber-600/40 rounded-lg px-3 py-1.5 transition-all duration-200"
-            >
+            <Link href="/animals" className="flex items-center gap-2 text-xs text-emerald-600 hover:text-amber-400 border border-emerald-900/60 hover:border-amber-600/40 rounded-lg px-3 py-1.5 transition-all duration-200">
               <FiArrowLeft /> Back
             </Link>
             <div className="flex items-center gap-1.5 text-[10px] tracking-wide text-emerald-800 flex-wrap">
@@ -117,18 +121,14 @@ export default async function AnimalDetailsPage({ params }) {
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-7 pb-20">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_370px] gap-6">
-
             <div className="space-y-5 min-w-0">
               <div className="anim-fu-1 relative overflow-hidden rounded-3xl border border-emerald-900/60 shadow-[0_0_60px_rgba(0,0,0,0.6)]">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#0d2e18] via-[#091a0f] to-[#061409]" />
                 <div className="orb-a absolute w-72 h-72 rounded-full bg-emerald-900/20 blur-3xl -top-16 -left-16 pointer-events-none" />
                 <div className="orb-b absolute w-56 h-56 rounded-full bg-amber-900/15 blur-3xl -bottom-10 -right-10 pointer-events-none" />
-
                 <div className="relative h-52 sm:h-64 flex items-center justify-center">
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(200,160,58,0.07)_0%,transparent_65%)]" />
-                  <div className="relative float-icon">
-                    <AnimalIcon type={animal.type} />
-                  </div>
+                  <div className="relative float-icon"><AnimalIcon type={animal.type} /></div>
                   <span className="absolute top-4 right-4 flex items-center gap-1.5 bg-emerald-900/70 border border-emerald-700/50 backdrop-blur-sm text-emerald-300 text-[10px] font-semibold px-3 py-1.5 rounded-full">
                     <FiShield className="text-xs" /> Vaccinated
                   </span>
@@ -136,24 +136,15 @@ export default async function AnimalDetailsPage({ params }) {
                     ANM-2025-{String(animal.id).padStart(3, "0")}
                   </span>
                 </div>
-
                 <div className="relative border-t border-emerald-900/40 bg-gradient-to-r from-[#0a1e10]/80 to-[#061409]/80 backdrop-blur-sm px-6 py-5 flex flex-wrap items-end justify-between gap-4">
                   <div className="min-w-0">
-                    <p className="text-[10px] tracking-[3px] uppercase text-amber-500/70 mb-1">
-                      {animal.type} · {animal.breed}
-                    </p>
-                    <h1 className="font-serif-custom text-2xl sm:text-3xl md:text-4xl font-bold text-amber-50 leading-tight break-words">
-                      {animal.name}
-                    </h1>
-                    <p className="text-xs text-emerald-600 mt-1.5">
-                      Sold by <span className="text-amber-500/80 font-medium">{seller}</span>
-                    </p>
+                    <p className="text-[10px] tracking-[3px] uppercase text-amber-500/70 mb-1">{animal.type} · {animal.breed}</p>
+                    <h1 className="font-serif-custom text-2xl sm:text-3xl md:text-4xl font-bold text-amber-50 leading-tight break-words">{animal.name}</h1>
+                    <p className="text-xs text-emerald-600 mt-1.5">Sold by <span className="text-amber-500/80 font-medium">{seller}</span></p>
                   </div>
                   <div className="text-right flex-shrink-0">
                     <p className="text-[10px] tracking-[2px] uppercase text-emerald-700 mb-1">Price</p>
-                    <p className="font-serif-custom text-3xl sm:text-4xl font-extrabold price-shine leading-none">
-                      {formatPrice(animal.price)}
-                    </p>
+                    <p className="font-serif-custom text-3xl sm:text-4xl font-extrabold price-shine leading-none">{formatPrice(animal.price)}</p>
                   </div>
                 </div>
               </div>
@@ -166,24 +157,16 @@ export default async function AnimalDetailsPage({ params }) {
               </div>
 
               <div className="anim-fu-3 bg-gradient-to-br from-[#0a1f10] to-[#061409] border border-emerald-900/60 rounded-2xl p-6">
-                <p className="text-[10px] tracking-[3px] uppercase text-amber-500/70 font-semibold mb-3">
-                  About This Animal
-                </p>
+                <p className="text-[10px] tracking-[3px] uppercase text-amber-500/70 font-semibold mb-3">About This Animal</p>
                 <p className="text-sm text-emerald-400/80 leading-relaxed">{animal.description}</p>
               </div>
 
               <div className="anim-fu-4 bg-gradient-to-br from-[#0a1f10] to-[#061409] border border-emerald-900/60 rounded-2xl p-6">
-                <p className="text-[10px] tracking-[3px] uppercase text-amber-500/70 font-semibold mb-4">
-                  Key Features
-                </p>
+                <p className="text-[10px] tracking-[3px] uppercase text-amber-500/70 font-semibold mb-4">Key Features</p>
                 <div className="flex flex-wrap gap-2">
                   {features.map((f) => (
-                    <span
-                      key={f}
-                      className="inline-flex items-center gap-2 bg-emerald-950/50 border border-emerald-900/60 hover:border-amber-600/40 hover:bg-amber-900/10 rounded-lg px-3 py-2 text-xs text-emerald-300 transition-all duration-200 cursor-default"
-                    >
-                      <FiCheckCircle className="text-emerald-500 text-xs flex-shrink-0" />
-                      {f}
+                    <span key={f} className="inline-flex items-center gap-2 bg-emerald-950/50 border border-emerald-900/60 hover:border-amber-600/40 hover:bg-amber-900/10 rounded-lg px-3 py-2 text-xs text-emerald-300 transition-all duration-200 cursor-default">
+                      <FiCheckCircle className="text-emerald-500 text-xs flex-shrink-0" />{f}
                     </span>
                   ))}
                 </div>
@@ -191,13 +174,9 @@ export default async function AnimalDetailsPage({ params }) {
             </div>
 
             <div className="anim-fu-r space-y-4 lg:sticky lg:top-20 lg:self-start">
-
               <BookingForm />
-
               <div className="bg-gradient-to-br from-[#0a1f10] to-[#061409] border border-emerald-900/60 rounded-2xl p-5">
-                <p className="text-[10px] tracking-[3px] uppercase text-emerald-700 font-semibold mb-4">
-                  Price Breakdown
-                </p>
+                <p className="text-[10px] tracking-[3px] uppercase text-emerald-700 font-semibold mb-4">Price Breakdown</p>
                 <div className="space-y-3">
                   {[
                     { label: "Animal Price", value: formatPrice(animal.price), accent: false },
@@ -206,16 +185,12 @@ export default async function AnimalDetailsPage({ params }) {
                   ].map(({ label, value, accent }) => (
                     <div key={label} className="flex justify-between items-center">
                       <span className="text-sm text-emerald-600">{label}</span>
-                      <span className={`text-sm font-medium ${accent ? "text-emerald-400" : "text-amber-100/80"}`}>
-                        {value}
-                      </span>
+                      <span className={`text-sm font-medium ${accent ? "text-emerald-400" : "text-amber-100/80"}`}>{value}</span>
                     </div>
                   ))}
                   <div className="border-t border-emerald-900/60 pt-3 flex justify-between items-center">
                     <span className="text-sm font-bold text-amber-100">Total</span>
-                    <span className="font-serif-custom text-xl font-extrabold text-amber-400">
-                      {formatPrice(animal.price)}
-                    </span>
+                    <span className="font-serif-custom text-xl font-extrabold text-amber-400">{formatPrice(animal.price)}</span>
                   </div>
                 </div>
               </div>
@@ -226,17 +201,13 @@ export default async function AnimalDetailsPage({ params }) {
                   { icon: FiCheckCircle, text: "Vet Checked"     },
                   { icon: FiPackage,     text: "Free Delivery"   },
                 ].map(({ icon: Icon, text }) => (
-                  <div
-                    key={text}
-                    className="bg-[#0a1f10] border border-emerald-900/50 hover:border-emerald-700/50 rounded-xl p-3 text-center transition-colors duration-200 group cursor-default"
-                  >
+                  <div key={text} className="bg-[#0a1f10] border border-emerald-900/50 hover:border-emerald-700/50 rounded-xl p-3 text-center transition-colors duration-200 group cursor-default">
                     <Icon className="text-amber-500/80 group-hover:text-amber-400 transition-colors text-base mx-auto mb-1.5" />
                     <p className="text-[9px] text-emerald-600 leading-tight">{text}</p>
                   </div>
                 ))}
               </div>
             </div>
-
           </div>
         </div>
       </div>
