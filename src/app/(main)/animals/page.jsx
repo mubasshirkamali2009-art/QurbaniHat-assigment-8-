@@ -159,10 +159,10 @@ const AnimalsPage = () => {
                       <div className="ap-stat"><FaTag className="ap-stat-icon" />{animal.type}</div>
                     </div>
                     <p className="ap-card-desc">{animal.description}</p>
-                    <div className="ap-card-footer">
-                      <span className="ap-card-price">{formatPrice(animal.price)}</span>
-                      <Link href={`/animal-detail/${animal.id}`} className="ap-details-btn">Details</Link>
-                    </div>
+                    <div className="ap-card-footer flex flex-col lg:flex-row">
+  <span className="ap-card-price">{formatPrice(animal.price)}</span>
+  <Link href={`/animal-detail/${animal.id}`} className="ap-details-btn">Details</Link>
+</div>
                   </div>
                 </div>
               ))}

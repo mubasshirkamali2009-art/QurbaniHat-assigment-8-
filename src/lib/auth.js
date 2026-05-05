@@ -5,7 +5,7 @@ import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 
 
-console.log(process.env.MONGO_URI)
+// console.log(process.env.MONGO_URI)
 
 const client = new MongoClient(process.env.MONGO_URI);
 const db = client.db("betterAuthDBuser");
@@ -15,16 +15,16 @@ export const auth = betterAuth({
     client,
   }),
 
- emailAndPassword: { 
-    enabled: true, 
-    autoSignIn:false
+  emailAndPassword: {
+    enabled: true,
+    autoSignIn: false
   },
-socialProviders: {
-  google:{
-    clientId: process.env.GOOGLE_CLIENT_ID ,
-    clientSecret: process.env.GOOGLE_CLIENT_ID
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+    }
   }
-}
 
 
 });
