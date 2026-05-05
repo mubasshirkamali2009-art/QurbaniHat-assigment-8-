@@ -6,10 +6,7 @@ import { PiPawPrintFill } from "react-icons/pi";
 import Link from "next/link";
 import animaljson from "./../../../../animal.json";
 import BookingForm from "@/components/shared/BookingForm";
-import { useEffect , use } from "react";
-import { useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
-import { Spinner } from "@heroui/react";
+import { use } from "react";
 
 const formatPrice = (p) => "৳" + Number(p).toLocaleString("en-IN");
 
@@ -51,29 +48,11 @@ const StatCard = ({ icon: Icon, label, value }) => (
 );
 
 export default function AnimalDetailsPage({ params }) {
-  const router = useRouter();
-  const userData = authClient.useSession();
-  const user = userData.data?.user;
-  const loading = userData.isPending;
-const { id } = use(params);
+  
+    const { id } = use(params);
   const animal   = animaljson.find((a) => a.id === Number(id)) ?? animaljson[0];
   const features = featuresMap[animal.type] ?? featuresMap.Cow;
   const seller   = sellerMap[animal.type]   ?? "Haji Farms Ltd.";
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push("/login");
-    }
-  }, [user, loading]);
-
-
-
-  if (loading) return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#040e07' }}>
-      <Spinner size="lg" color="warning" />
-    </div>
-  );
-
-  if (!user) return null;
 
   return (
     <>
