@@ -3,7 +3,7 @@ Qurbani hat
 a website for eid animal sate for wurbani 
 
 
-live url: https://qurbani-hat-assigment-8-9787.vercel.app/
+live url: qurbani-hat-assigment-8-9787.vercel.app
 
 key future: 
 we can buy animal in online 
