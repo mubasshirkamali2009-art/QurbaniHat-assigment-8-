@@ -1,14 +1,18 @@
 "use client"
 import { authClient } from '@/lib/auth-client';
+
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FaGooglePlus } from "react-icons/fa6";
 import { ToastContainer, toast } from 'react-toastify';
+
 const RegisterPage = () => {
 const {register,
     handleSubmit , formState: {errors} } =useForm()
-
+const router =useRouter()
 const handleRegisterfucn=  async(data) => {
 console.log(data,'data');
 const {email, name , photo , password}=data;
@@ -21,13 +25,17 @@ const {data:res ,error} =await authClient.signUp.email({
     password: password, // required
     image: photo,
     callbackURL: "/login",
+
 });
 console.log(res,error)
 if(error){
  toast.error(error.message)
 }
-if(res){
-  toast.success('Registation Successfull')
+ if(res){
+  toast.success('Registration Successful', {
+    onClose: () => router.push("/login"),
+    autoClose: 2000
+  })
 }
 
 
